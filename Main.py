@@ -86,6 +86,7 @@ if mode == 1:
         mot_decode = input("Entrez le mot à encoder => ")
     while not(check2(code_decalage)):
         code_decalage = input("Entrez le décalage => ")
-    print(cesar(mot_decode,code_decalage))
     #Et paf ça fait Le Str devient Int
     code_decalage = int(code_decalage)
+    print(cesar(mot_decode,code_decalage))
+
