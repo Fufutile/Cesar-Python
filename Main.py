@@ -1,10 +1,5 @@
 from random import randrange
 
-print("Choissisez un mode ! (1:Encryptage-décryptage, 2: Jeu !)")
-mode = int(input())
-
-alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-
 def inliste(liste,letrre):
     # Vérifie si un caractère "letrre" est dans une liste
     # Admet un str de longueur 1 et ladite liste et retourne un booléen
@@ -12,6 +7,29 @@ def inliste(liste,letrre):
         if letrre == caractere:
             return True
     return False
+
+mode = 0
+
+while not(inliste(["1","2"],mode)):
+    print("Choissisez un mode ! (1:Encryptage-décryptage, 2: Jeu !)")
+    mode = input()
+    
+mode = int(mode)
+
+alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+
+def felicitations():
+    print("""
+    ______   _ _      _ _        _   _                                                                                               
+    |  ___| | (_)    (_) |      | | (_)                                                                                              
+    | |_ ___| |_  ___ _| |_ __ _| |_ _  ___  _ __  ___    __   _____  _   _ ___    __ ___   _____ ____   __ _  __ _  __ _ _ __   ___ 
+    |  _/ _ \ | |/ __| | __/ _` | __| |/ _ \| '_ \/ __|   \ \ / / _ \| | | / __|  / _` \ \ / / _ \_  /  / _` |/ _` |/ _` | '_ \ / _ \
+    | ||  __/ | | (__| | || (_| | |_| | (_) | | | \__ \_   \ V / (_) | |_| \__ \ | (_| |\ V /  __// /  | (_| | (_| | (_| | | | |  __/
+    \_| \___|_|_|\___|_|\__\__,_|\__|_|\___/|_| |_|___( )   \_/ \___/ \__,_|___/  \__,_| \_/ \___/___|  \__, |\__,_|\__, |_| |_|\___|
+                                                      |/                                                 __/ |       __/ |           
+                                                                                                        |___/       |___/            
+    """)
+
 
 def check1(mot):
     # Utilise la fonction inliste pour vérifier si un mot est valide
@@ -24,13 +42,16 @@ def check1(mot):
     return True
 
 def check2(chiffre):
-    # Utilise la fonction inliste pour vérifier si un décalage est valide
+    # Utilise la fonction inliste pour vérifier si un chiffre est un int
     # Admet un Int et renvoie un booléen
-    for ch in chiffre:
-        if not(inliste(["1","2","3","4","5","6","7","8","9","0","-"],ch)):
-            print("Entrez un entier naturel")
-            return False
-        return True
+    count = 1
+    for caractere in chiffre:
+        if not(inliste(["1","2","3","4","5","6","7","8","9","0"],caractere)):
+            if not(count == 1 and caractere == "-"):
+                print("Entrez un entier naturel")
+                return False
+        count += 1
+    return True
 
 
 def transliste(mot):
@@ -49,7 +70,7 @@ def indexfindr(alphabet,lettre_decod):
         count += 1
 
 def affichage_sympa(ls_mot_decode):
-    #Transforme une liste en Str
+    #Transforme une liste en Str pour un ffichage plus clair
     mot_sympa = ""
     for lettre in ls_mot_decode:
         mot_sympa = mot_sympa+lettre
@@ -76,9 +97,10 @@ if mode == 1:
     while not(check1(mot_decode)):
         mot_decode = input("Entrez le mot à encoder => ")
     while not(check2(code_decalage)):
-        code_decalage = input("Entrez le décalage => ")
+        code_decalage = input("Entrez le décalage (Vous pouvez décoder avec un code négatif) => ")
 
     #Et paf ça fait Le Str devient Int
+    print(code_decalage)
     code_decalage = int(code_decalage)
 
     print(cesar(mot_decode,code_decalage))
@@ -98,16 +120,31 @@ if mode == 2:
     mot = [ville_russe_1,ville_russe_2,ville_russe_3,ville_chine_1,ville_chine_2,ville_chine_3,ville_allemagne_1,ville_allemagne_2,ville_allemagne_3]
 
     mot_a_dev = mot[randrange(0,len(mot))][randrange(0,4)]
-    print(mot_a_dev)
     code = randrange(1,4)
-    print(code)
     devin = cesar(mot_a_dev,code)
 
-    print("Le mot à deviner est",devin, "avec le code",code)
+    print("Le nom de ville encrypté est",devin, "avec le code",code)
     
     essais = 3
     
     while essais>0 :
+        reponse = "#"
         print("Vous avez",essais,"essais")
+        print("Quel est votre essai :")
+        while not(check1(reponse)):
+            reponse = input()
+        if reponse == mot_a_dev:
+            print("Bonne réponse, Félicitations")
+            felicitations()
+            essais = 0
+        elif essais<2:
+            print("échec ... Le mot était",mot_a_dev)
+        essais -= 1
+        
+    
+        
+        
+    
+        
     
 
